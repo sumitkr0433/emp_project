@@ -1,0 +1,320 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+   
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+      <title>Iudx - Dashboard</title>
+      <link rel="shortcut icon" href="assets/img/favicon.png">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700;1,400&amp;display=swap">
+      <link href="{% static 'dashboard/plugins/bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
+      <link href="{% static 'dashboard/plugins/fontawesome/css/fontawesome.min.css' %}" rel="stylesheet">
+      <link href="{% static 'dashboard/plugins/fontawesome/css/all.min.css' %}" rel="stylesheet">
+      <link rel="stylesheet" href="{% static 'dashboard/css/style.css' %}">
+   </head>
+   <style>
+ <style>
+      .modal-confirm {     
+      color: #636363;
+      }
+      .modal-confirm .modal-content {
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      text-align: center;
+      font-size: 14px;
+      width: 400px;
+      height: 362px;
+      }
+      .modal-confirm  {
+      margin-top: 20px;   
+      position: relative;
+      }
+      .modal-confirm h4 {
+      text-align: left;
+      font-size: 26px;
+      margin: 10px;
+      color: #999;
+      }
+      .modal-confirm .close {
+      position: absolute;
+      top: 8px;
+      right: 20px;
+      }
+      .modal-confirm .modal-body {
+      color: #999;
+      }
+      .modal-confirm .modal-footer {
+      border: none;
+      text-align: center;     
+      border-radius: 5px;
+      font-size: 13px;
+      padding: 10px 15px 25px;
+      }
+      .modal-confirm .modal-footer a {
+      color: #999;
+      }
+      .modal-confirm .icon-box {
+      width: 80px;
+      height: 80px;
+      margin-top: -3px;
+      margin-left: 130px;
+      border-radius: 50%;
+      z-index: 9;
+      text-align: center;
+      border: 3px solid #f15e5e;
+      }
+      .modal-confirm .icon-box i {
+      color: #f15e5e;
+      font-size: 46px;
+      display: inline-block;
+      margin-top: 13px;
+      }
+      .modal-confirm .btn {
+      color: #fff;
+      border-radius: 4px;
+      background: #60c7c1;
+      text-decoration: none;
+      transition: all 0.4s;
+      line-height: normal;
+      min-width: 120px;
+      border: none;
+      min-height: 40px;
+      border-radius: 3px;
+      margin: 0 5px;
+      outline: none !important;
+      }
+      .modal-confirm .btn-info {
+      background: #c1c1c1;
+      }
+      .modal-confirm .btn-info:hover, .modal-confirm .btn-info:focus {
+      background: #a8a8a8;
+      }
+      .modal-confirm .btn-danger {
+      background: #f15e5e;
+      }
+      .modal-confirm .btn-danger:hover, .modal-confirm .btn-danger:focus {
+      background: #ee3535;
+      }
+      .trigger-btn {
+      display: inline-block;
+      margin: 100px auto;
+      }
+      .modal-header
+      {
+      border-bottom: None; 
+      }
+   </style>
+   </style>
+   <body>
+      <div class="main-wrapper">
+         <div class="header">
+            <div class="header-left">
+               <a href="{% url 'dashboard' %}" class="logo">
+               <img src="{% static 'img/image.png' %}" alt="Logo">
+               </a>
+               <a href="{% url 'dashboard' %}" class="logo logo-small">
+               <img src="{% static 'img/image.png' %}" alt="Logo" width="10px" height="30">
+               </a>
+            </div>
+            <a href="javascript:void(0);" id="toggle_btn">
+            <i class="fas fa-align-left"></i>
+            </a>
+            <a class="mobile_btn" id="mobile_btn">
+            <i class="fas fa-bars"></i>
+            </a>
+            <ul class="nav user-menu">
+               <li class="nav-item dropdown has-arrow">
+                  <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                  <span class="user-img"><img class="rounded-circle" src="{{user.profile.photo.url}}" width="31" alt="Ryan Taylor"></span>
+                  </a>
+                  <div class="dropdown-menu">
+                     <div class="user-header">
+                        <div class="avatar avatar-sm">
+                           <img src="{{user.profile.photo.url}}" alt="User Image" class="avatar-img rounded-circle">
+                        </div>
+                        <div class="user-text">
+                           <h6>{{user.first_name}}</h6>
+                           <p class="text-muted mb-0">Administrator</p>
+                        </div>
+                     </div>
+                     <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
+                     <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                  </div>
+               </li>
+            </ul>
+         </div>
+         <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+               <div id="sidebar-menu" class="sidebar-menu">
+                 
+                  <ul>
+                     <li class="menu-title">
+                        <span>Main Menu</span>
+                     </li>
+                     <li class="submenu active" style="text-decoration-color:white;">
+                         <li class="submenu active">
+                        <a href="#"><i class="fas fa-user-graduate"></i> <span> Dashboard</span> <span class="menu-arrow"></span></a>
+                        <ul>
+                           <li><a href="{% url 'profile' %}" class="">Profile</a></li>
+                           <li><a href="{% url 'profile_update' %}">Edit Profile</a></li>
+                        </ul>
+                     </li>
+                        <ul>
+                           <li><a href="{% url 'profile' %}" class="">Profile</a></li>
+                           <li><a href="{% url 'profile_update' %}">Edit Profile</a></li>
+                        </ul>
+                     </li>
+                     {% if user.is_superuser %}
+                     <li class="submenu">
+                        <a href="#"><i class="fas fa-building"></i> <span>User</span> <span class="menu-arrow"></span></a>
+                        <ul>
+                           <li><a href="{% url 'view_user' %}">User</a></li>
+                        </ul>
+                     </li>
+                     {% endif %}
+                     <li class="submenu">
+                        <a href="#"><i class="fas fa-building"></i> <span>Employee</span> <span class="menu-arrow"></span></a>
+                        <ul>
+                           <li><a href="">Employee</a></li>
+                        </ul>
+                     </li>
+                     <li class="submenu">
+                        <a href="#"><i class="fas fa-shield-alt"></i> <span>Department</span> <span class="menu-arrow"></span></a>
+                        <ul>
+                           <li><a href="">Department</a></li>
+                        </ul>
+                     </li>
+                     
+                  </ul>
+               </div>
+            </div>
+         </div>
+          <div class="page-wrapper">
+            <div class="content container-fluid">
+               <div class="page-header">
+                  <div class="row">
+                     <div class="col-sm-12">
+                        <h3 class="page-title">Welcome Admin!</h3>
+                        <ul class="breadcrumb">
+                           <li class="breadcrumb-item active">Dashboard</li>
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+                  <div class="row">
+                  <div class="col-sm-12">
+                     <div class="card card-table">
+                        <div class="card-body">
+                           <div class="table-responsive">
+                              <table class="table table-hover table-center mb-0 datatable">
+                                 <thead>
+                                    <tr>
+                                       <th>ID</th>
+                                       <th>Username</th>
+                                       <th>Email</th>
+                                       <th>Approval</th>
+                                       <th>Last Login
+                                       <th class="text-right">Action</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    {% for user1 in user1 %}
+                                    <tr>
+                                       <td>{{forloop.counter}}</td>
+                                       <td>
+                                          <h2 class="table-avatar">
+                                             <a href="student-details.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="{{user1.profile.photo.url}}" alt="User Image"></a>
+                                             <a href="student-details.html">{{user1.name}}</a>
+                                          </h2>
+                                       </td>
+                                       <td>{{user1.email}}</td>
+                                       <td>{{user1.profile.approval}}</td>
+                                       <td>{{user1.last_login}}</td>
+                                       <td class="text-right">
+                                          <div class="actions">
+                                            <a class="btn btn-primary mr-1" data-toggle="modal" data-target="#myModal-{{forloop.counter}}">
+                                          <i class="fa fa-pen fa-x"></i>
+                                          </a>
+                                             <a href="#deleteEmployeeModal-{{forloop.counter}}" class="sansserif btn btn-danger mr-1" data-toggle="modal">
+                                                   <i class="fa fa-trash fa-x"></i>
+                                                   </a>
+                                                </div>
+                                 </div>
+                                 </td>
+                                 </tr>
+                                 <div id="deleteEmployeeModal-{{forloop.counter}}" class="modal fade">
+                                 <div class="modal-dialog modal-confirm">
+                                 <div class="modal-content">
+                                 <div class="modal-header">
+                                 <div class="icon-box">
+                                 <i class="material-icons">&#xE5CD;</i>
+                                 </div>   
+                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                 </div>
+                                 <h4 class="modal-title"><center>Are you sure?</center></h4>   
+                                 <div class="modal-body">
+                                 <p>Do you really want to delete these records? This process cannot be undone.</p>
+                                 </div>
+                                 <div class="modal-footer">
+                                 <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                                 <a href="{% url 'delete_user' user1.id %}"><button type="submit" class="btn btn-danger">Delete</button></a>
+                                 </div>
+                                 </div>
+                                 </div>
+                                 </div>
+                                 <div class="modal fade" id="myModal-{{forloop.counter}}" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" style="margin-left:150px;">Approval Form</h5>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+<form action="{% url 'view_user' user1.id %}" method="post" id="madd_name" multipart>
+   {% csrf_token %}
+      <div class="form-group row">
+<label class="col-lg-3 col-form-label">Approval Form</label>
+         <div class="col-lg-9">
+            <select class="form-control form-control-sm" name="user_approval" >
+               <option selected>{{user1.profile.approval}}</option>
+               {% if user1.profile.approval == "Yes" %}
+               <option>No</option>
+               {% else %}
+               <option>Yes</option>
+               {% endif %}
+            </select>
+         </div>
+      </div>
+      <div class="text-center">
+<button type="submit" class="btn btn-primary">Submit</button>
+</div>
+</form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+        </div>
+        </div>
+                                 {%endfor%}
+                                 </tbody>
+                                 </table>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+ <script src="{% static 'dashboard/js/jquery-3.6.0.min.js' %}"></script>
+      <script src="{% static 'dashboard/js/popper.min.js'%}"></script>
+      <script src="{% static 'dashboard/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+      <script src="{% static 'dashboard/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+      <script src="{% static 'dashboard/apexchart/apexcharts.min.js' %}"></script>
+      <script src="{% static 'dashboard/plugins/apexchart/chart-data.js' %}"></script>
+      <script src="{% static 'dashboard/js/script.js' %}"></script>
+   <script>
+              
